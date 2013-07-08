@@ -1,0 +1,32 @@
+<?php
+$input_search = $argv[1];
+//print $input_search;
+
+$url = 'http://query.yahooapis.com/v1/public/yql?q=select%20item%20from%20weather.forecast%20where%20location%3D%22' . $input_search . '%22&format=json';
+$contents = file_get_contents($url);
+$json = json_decode($contents, true);
+//var_dump($json['query']['results']['channel']['item']['condition']);
+//var_dump($json['query']['results']['channel']['item']['forecast'][0]);
+
+$condArray = $json['query']['results']['channel']['item']['condition'];
+$condForecast = $json['query']['results']['channel']['item']['forecast'][0];
+
+//var_dump($condArray);
+//var_dump($condForecast);
+$currentTemp = $condArray['temp'];
+$currentCond = $condArray['text'];
+$high = $condForecast['high'];
+$low = $condForecast['low'];
+$forcastCond = $condForecast['text'];
+
+
+print "current temp: \t\t" . $currentTemp . "\n";
+print "current conditions: \t" .$currentCond. "\n";
+print "high: \t\t\t" . $high. "\n";
+print "low: \t\t\t" . $low. "\n";
+print "general conditions: \t" . $forcastCond . "\n";
+
+
+
+//return these variables in an object to caller
+?>
